@@ -1,0 +1,23 @@
+{
+  "name": "FileSystem",
+  "authors": [
+    {
+      "name": "alvin0319",
+      "email": "alvin7810@naver.com",
+      "homepage": "https://github.com/alvin0319",
+      "role": "Main contributor"
+    }
+  ],
+  "support": {
+    "issues": "https://github.com/alvin0319/FileSystem/issues"
+  },
+  "license": "GPL-3.0-or-later",
+  "version": "1.0.0",
+  "description": "A Simple filesystem for PHP",
+  "type": "library",
+  "autoload": {
+    "psr-4": {
+      "alvin0319\\FileSystem\\": ["src/"]
+    }
+  }
+}
