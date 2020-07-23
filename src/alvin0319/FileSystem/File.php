@@ -7,7 +7,6 @@ use function fclose;
 use function file_get_contents;
 use function fopen;
 use function fwrite;
-use function in_array;
 use function json_decode;
 use function parse_ini_string;
 use function pathinfo;
@@ -20,25 +19,12 @@ class File extends FileBase{
 	public function check() : void{
 	}
 
-	public function canEdit() : bool{
-		$ext = pathinfo($this->path, PATHINFO_EXTENSION);
-		return in_array($ext, [
-			"json",
-			"yml",
-			"yaml",
-			"ini"
-		]);
-	}
-
 	/**
 	 * @param bool $stdClass
-	 * @return array
+	 * @return array|string return array if can parse, return string (raw data) if can't parse
 	 * @throws ContentEditException
 	 */
-	public function getData(bool $stdClass = false) : array{
-		if(!$this->canEdit()){
-			throw new ContentEditException("Cannot edit this file");
-		}
+	public function getData(bool $stdClass = false){
 		$ext = pathinfo($this->path, PATHINFO_EXTENSION);
 		if($stdClass and $ext !== "json"){
 			throw new ContentEditException("Cannot import non-JSON file in stdClass format.");
@@ -52,13 +38,15 @@ class File extends FileBase{
 			case "ini":
 				return parse_ini_string(file_get_contents($this->path));
 			default:
-				throw new ContentEditException("Cannot edit this file");
+				return file_get_contents($this->path);
 		}
 	}
 
-	public function setData(string $content) : File{
+	public function addString(array $content = []) : File{
 		$res = fopen($this->path, "w+");
-		fwrite($res, $content);
+		foreach($content as $str){
+			fwrite($res, $str);
+		}
 		fclose($res);
 		return $this;
 	}

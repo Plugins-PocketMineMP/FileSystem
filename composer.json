@@ -15,6 +15,10 @@
   "version": "1.0.0",
   "description": "A Simple filesystem for PHP",
   "type": "library",
+  "require": {
+    "ext-json": "*",
+    "ext-yaml": "*"
+  },
   "autoload": {
     "psr-4": {
       "alvin0319\\FileSystem\\": ["src/"]

@@ -7,7 +7,13 @@ require "autoloader.php";
 
 $folder = \alvin0319\FileSystem\FileSystem::fromDir("../../bin");
 
-var_dump($folder->getContents());
+foreach($folder->getContents() as $content){
+	if($content instanceof \alvin0319\FileSystem\Folder){
+		echo "Folder detected: " . $content->getPath() . "\n";
+	}elseif($content instanceof \alvin0319\FileSystem\File){
+		echo "File detected: " . $content->getPath() . "\n";
+	}
+}
 
 //var_dump($folder);
 
@@ -15,12 +21,7 @@ $anotherFolder = $folder->mkdir("testFolder");
 
 $anotherFile = $anotherFolder->makeFile("test.json");
 
-if($anotherFile->canEdit()){
-	$anotherFile->setData("{\"test\": \"hi\"}");
-	echo "Edited file\n";
-}else{
-	echo "This file isn't editable\n";
-}
+$anotherFile->addString([json_encode(["test" => "ha"])]);
 
 echo "Succeed to create testFolder.\n";
 
